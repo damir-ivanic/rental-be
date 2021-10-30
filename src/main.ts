@@ -5,6 +5,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+// import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const config = new DocumentBuilder()
@@ -15,11 +16,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({
-      logger: true,
+      logger: false,
     }),
   );
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  // app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(7000);
 }
